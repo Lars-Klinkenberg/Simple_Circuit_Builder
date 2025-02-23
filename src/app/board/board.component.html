@@ -1,0 +1,7 @@
+<div id="board">
+  <tr class="row" *ngFor="let row of [].constructor(rowCount); let i = index">
+    <td class="col" *ngFor="let col of [].constructor(colCount); let y = index">
+      <button class="hole"></button>
+    </td>
+  </tr>
+</div>
