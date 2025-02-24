@@ -1,0 +1,54 @@
+.color-select {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding: 10px;
+
+    .color-button {
+        width: 20px;
+        height: 20px;
+        border: 0;
+        margin: 5px;
+        border-radius: 5px;
+
+        &[data-color="red"] {
+            background-color: #ff0000;
+        }
+
+        &[data-color="blue"] {
+            background-color: #0000ff;
+        }
+
+        &[data-color="black"] {
+            background-color: #000000;
+        }
+
+        &[data-color="white"] {
+            background-color: #ffffff;
+        }
+
+        &[data-color="green"] {
+            background-color: #008000;
+        }
+
+        &[data-color="yellow"] {
+            background-color: #ffff00;
+        }
+
+        &[data-color="orange"] {
+            background-color: #ffa500;
+        }
+
+        &[data-color="gray"] {
+            background-color: #808080;
+        }
+
+        &[data-color="purple"] {
+            background-color: #800080;
+        }
+
+    }
+
+}

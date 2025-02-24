@@ -4,6 +4,7 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 export interface Wire {
   start: Coordinate;
   end: Coordinate;
+  color: string;
 }
 export interface Coordinate {
   row: number;
@@ -22,6 +23,7 @@ export class BoardComponent {
 
   @Input() rowCount: number = 15;
   @Input() colCount: number = 40;
+  @Input() selectedColor: string = "grey"
 
   selectedHole: Coordinate | undefined = undefined;
 
@@ -34,7 +36,7 @@ export class BoardComponent {
       this.selectedHole = selection;
       return;
     }
-    let wire = { start: this.selectedHole, end: selection };
+    let wire = { start: this.selectedHole, end: selection, color: this.selectedColor };
     this.wires.push(wire);
     this.renderWire(wire);
     this.selectedHole = undefined;
@@ -45,14 +47,18 @@ export class BoardComponent {
   }
 
   renderWire(wire: Wire) {
-    if(wire.start.row > wire.end.row){
+    if (wire.start.row > wire.end.row) {
       let temp = wire.start;
       wire.start = wire.end;
       wire.end = temp;
     }
 
-    let hole1Container = document.getElementById(this.calcHoleIdString(wire.start.row, wire.start.col));
-    let hole2Container = document.getElementById(this.calcHoleIdString(wire.end.row, wire.end.col));
+    let hole1Container = document.getElementById(
+      this.calcHoleIdString(wire.start.row, wire.start.col)
+    );
+    let hole2Container = document.getElementById(
+      this.calcHoleIdString(wire.end.row, wire.end.col)
+    );
 
     if (!hole1Container || !hole2Container) return;
     let hole1Position = hole1Container.getBoundingClientRect();
@@ -67,7 +73,7 @@ export class BoardComponent {
     wireContainer.style.left = left.toString() + 'px';
     wireContainer.style.height = wireHeight.toString() + 'px';
     wireContainer.classList.add('wire');
-
+    wireContainer.style.backgroundColor = wire.color;
     this.boardContainer.nativeElement.appendChild(wireContainer);
   }
 }
