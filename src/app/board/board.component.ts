@@ -1,15 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-
-export interface Wire {
-  start: Coordinate;
-  end: Coordinate;
-  color: string;
-}
-export interface Coordinate {
-  row: number;
-  col: number;
-}
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
+import { Wire } from './wire';
+import { Coordinate } from './coordinate';
 
 @Component({
   selector: 'app-board',
@@ -18,16 +16,28 @@ export interface Coordinate {
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
 })
-export class BoardComponent {
+export class BoardComponent implements AfterViewInit {
+  LOCAL_STORAGE_WIRE_PATH = 'wires';
+
   @ViewChild('board') boardContainer!: ElementRef;
 
   @Input() rowCount: number = 15;
   @Input() colCount: number = 40;
-  @Input() selectedColor: string = "grey"
+  @Input() selectedColor: string = 'grey';
 
   selectedHole: Coordinate | undefined = undefined;
 
-  wires: Wire[] = [];
+  wires: Wire[];
+
+  constructor() {
+    this.wires = this.loadWiresFromStorage();
+  }
+
+  ngAfterViewInit(): void {
+    this.wires.forEach((wire) => {
+      this.renderWire(wire);
+    });
+  }
 
   holeSelected(row: number, col: number) {
     let selection: Coordinate = { row, col };
@@ -36,9 +46,14 @@ export class BoardComponent {
       this.selectedHole = selection;
       return;
     }
-    let wire = { start: this.selectedHole, end: selection, color: this.selectedColor };
+    let wire = {
+      start: this.selectedHole,
+      end: selection,
+      color: this.selectedColor,
+    };
     this.wires.push(wire);
     this.renderWire(wire);
+    this.saveWiresToStorage(this.wires);
     this.selectedHole = undefined;
   }
 
@@ -75,5 +90,19 @@ export class BoardComponent {
     wireContainer.classList.add('wire');
     wireContainer.style.backgroundColor = wire.color;
     this.boardContainer.nativeElement.appendChild(wireContainer);
+  }
+
+  saveWiresToStorage(wires: Wire[]) {
+    localStorage.setItem(this.LOCAL_STORAGE_WIRE_PATH, JSON.stringify(wires));
+  }
+
+  loadWiresFromStorage(): Wire[] {
+    let storage = localStorage.getItem(this.LOCAL_STORAGE_WIRE_PATH);
+    if (!storage) return [];
+
+    let wires: Wire[] = JSON.parse(storage);
+    if (!wires) return [];
+
+    return wires;
   }
 }
