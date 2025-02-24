@@ -1,2 +1,49 @@
-<app-color-select [(color)]="selectedColor"></app-color-select>
-<app-board [selectedColor]="selectedColor"></app-board>
+<div class="home">
+  <div class="tool-select">
+    <button
+      (click)="changeEditType(editTypes.Wire)"
+      class="tool-btn"
+      [class.active]="currentEditType == editTypes.Wire"
+    >
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Add Wire"
+        fontIcon="cable"
+        class="tool-icon"
+      ></mat-icon>
+    </button>
+    <button
+      (click)="changeEditType(editTypes.Component)"
+      class="tool-btn"
+      [class.active]="currentEditType == editTypes.Component"
+    >
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Add Wire"
+        fontIcon="dashboard_customize"
+        class="tool-icon"
+      ></mat-icon>
+    </button>
+    <button
+      (click)="changeEditType(editTypes.Delete)"
+      class="tool-btn"
+      [class.active]="currentEditType == editTypes.Delete"
+    >
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Add Wire"
+        fontIcon="delete"
+        class="tool-icon"
+      ></mat-icon>
+    </button>
+  </div>
+  <div class="main">
+    <div class="top-nav">
+      <app-color-select
+        [(color)]="selectedColor"
+        *ngIf="currentEditType == editTypes.Wire"
+      ></app-color-select>
+    </div>
+    <app-board [selectedColor]="selectedColor" class="board"></app-board>
+  </div>
+</div>
