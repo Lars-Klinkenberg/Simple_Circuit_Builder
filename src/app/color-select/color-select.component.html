@@ -1,57 +1,15 @@
 <div class="color-select">
+  <div class="default-buttons" *ngFor="let color of defaultColors">
     <button
       class="color-button"
-      data-color="red"
-      (click)="changeSelectedColor('#ff0000')"
+      [attr.data-color]="color.name"
+      (click)="changeSelectedColor(color.hexCode)"
     ></button>
-    <button
-      class="color-button"
-      data-color="blue"
-      (click)="changeSelectedColor('#0000ff')"
-    ></button>
-    <button
-      class="color-button"
-      data-color="black"
-      (click)="changeSelectedColor('#000000')"
-    ></button>
-    <button
-      class="color-button"
-      data-color="white"
-      (click)="changeSelectedColor('#ffffff')"
-    ></button>
-    <button
-      class="color-button"
-      data-color="green"
-      (click)="changeSelectedColor('#008000')"
-    ></button>
-    <button
-      class="color-button"
-      data-color="yellow"
-      (click)="changeSelectedColor('#ffff00')"
-    ></button>
-    <button
-      class="color-button"
-      data-color="orange"
-      (click)="changeSelectedColor('#ffa500')"
-    ></button>
-    <button
-      class="color-button"
-      data-color="gray"
-      (click)="changeSelectedColor('#808080')"
-    ></button>
-    <button
-      class="color-button"
-      data-color="purple"
-      (click)="changeSelectedColor('#800080')"
-    ></button>
-  
-    <mat-form-field>
-      <mat-label>Cable Color</mat-label>
-      <input
-        matInput
-        type="color"
-        [(ngModel)]="color"
-        [value]="color"
-      />
-    </mat-form-field>
   </div>
+
+  <mat-form-field>
+    <mat-label>Cable Color</mat-label>
+    <input matInput type="color" [(ngModel)]="color" [value]="color" />
+  </mat-form-field>
+</div>
+    
