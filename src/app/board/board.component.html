@@ -1,7 +1,7 @@
-<div id="board">
-  <tr class="row" *ngFor="let row of [].constructor(rowCount); let i = index">
-    <td class="col" *ngFor="let col of [].constructor(colCount); let y = index">
-      <button class="hole"></button>
+<div id="board" #board>
+  <tr class="row" *ngFor="let i of [].constructor(rowCount); let row = index">
+    <td class="col" *ngFor="let y of [].constructor(colCount); let col = index">
+      <button class="hole" [id]="calcHoleIdString(row, col)" (click)="holeSelected(row, col)"></button>
     </td>
   </tr>
 </div>

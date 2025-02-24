@@ -1,8 +1,16 @@
-#board {
+::ng-deep #board {
     border: 3px solid #a18666;
     width: fit-content;
     padding: 4px;
     margin: auto;
+
+    .wire {
+        width: 10px;
+        background-color: red;
+        z-index: 100;
+        position: absolute;
+        border-radius: 50px;
+    }
 }
 
 .hole {
