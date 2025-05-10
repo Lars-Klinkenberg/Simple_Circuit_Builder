@@ -5,3 +5,10 @@
     </td>
   </tr>
 </div>
+
+@for(element of allComponents;track element){
+ @if(element.getType() === availableComponentTypes.WIRE){
+    <wire [data]="element"></wire>
+ }
+}
+

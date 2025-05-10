@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { BoardComponent } from './board/board.component';
-import { ColorSelectComponent } from './color-select/color-select.component';
+import { BoardComponent } from './components/board/board.component';
+import { ColorSelectComponent } from './components/color-select/color-select.component';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 
@@ -11,10 +11,10 @@ export enum EditTypes {
 }
 
 @Component({
-    selector: 'app-root',
-    imports: [CommonModule, BoardComponent, ColorSelectComponent, MatIconModule],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.scss'
+  selector: 'app-root',
+  imports: [CommonModule, BoardComponent, ColorSelectComponent, MatIconModule],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   editTypes = EditTypes;
