@@ -12,6 +12,7 @@ import { input } from '@angular/core';
 import { BoardElement } from '../../models/board-element';
 import { ComponentTypes } from '../../models/component-types';
 import { WireComponent } from '../wire/wire.component';
+import { Hole } from '../../models/hole';
 
 @Component({
   selector: 'app-board',
@@ -21,60 +22,99 @@ import { WireComponent } from '../wire/wire.component';
 })
 export class BoardComponent implements AfterViewInit {
   LOCAL_STORAGE_WIRE_PATH = 'wires';
+  BOARD_OPTIONS = {
+    verticalSpacing: 50,
+    horizontalSpacing: 50,
+    holeSize: 10,
+    stripeHeight: 26,
+  };
 
-  @ViewChild('board') boardContainer!: ElementRef;
+  // @ViewChild('board') boardContainer!: ElementRef;
 
   rowCount = input<number>(15);
   colCount = input<number>(40);
   selectedColor = input<string>('grey');
 
+  allHoles: Hole[] = [];
   selectedHole: Coordinate | undefined = undefined;
-
-  wires: Wire[];
 
   allComponents: BoardElement[] = [];
   availableComponentTypes = ComponentTypes;
 
+  viewBox: string = '0 0 100 100';
+
   constructor() {
-    this.wires = this.loadWiresFromStorage();
-    this.allComponents.push(new Wire('red', { row: 10, col: 10 }, { row: 1, col: 1 }));
+    this.allHoles = this.generateBoardHoles(this.rowCount(), this.colCount());
+    this.allComponents.push(new Wire('red', { x: 10, y: 10 }, { x: 1, y: 1 }));
+    this.setViewBox();
   }
 
-  ngAfterViewInit(): void {
-    this.wires.forEach((wire) => {
-      this.renderWire(wire);
-    });
+  ngAfterViewInit(): void {}
+
+  generateBoardHoles(rows: number, cols: number) {
+    let holes: Hole[] = [];
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        let hole: Hole = new Hole({
+          x: col * this.BOARD_OPTIONS.horizontalSpacing,
+          y: row * this.BOARD_OPTIONS.verticalSpacing,
+        });
+
+        holes.push(hole);
+      }
+    }
+
+    return holes;
   }
 
-  holeSelected(row: number, col: number) {
-    console.log(`holeSelected: ${row}, ${col}`);
+  setViewBox(padding: number = 10) {
+    const minX =
+      Math.min(...this.allHoles.map((h) => h.coordinate.x)) - padding;
+    const minY =
+      Math.min(...this.allHoles.map((h) => h.coordinate.y)) - padding;
+    const maxX =
+      Math.max(...this.allHoles.map((h) => h.coordinate.x)) + padding;
+    const maxY =
+      Math.max(...this.allHoles.map((h) => h.coordinate.y)) + padding;
 
-    let selection: Coordinate = { row, col };
+    const width = maxX - minX;
+    const height = maxY - minY;
 
-    // If no hole is selected, select the current one
-    // don't select the same hole twice
-    if (!this.selectedHole || this.selectedHole == selection) {
-      this.selectedHole = selection;
-      return;
-    }
+    this.viewBox = `${minX} ${minY} ${width} ${height}`;
+  }
 
-    // If the selected hole is in the same row change selection to new hole
-    if (this.selectedHole.row == selection.row) {
-      this.selectedHole = selection;
-      return;
-    }
+  holeSelected(hole: Hole) {
+    console.log('holeSelected: ', hole);
 
-    // create the wire
-    let wire = {
-      start: this.selectedHole,
-      end: selection,
-      color: this.selectedColor(),
-    };
+    // 'console.log(`holeSelected: ${row}, ${col}`);
 
-    // this.wires.push(wire);
-    // this.renderWire(wire);
-    this.saveWiresToStorage(this.wires);
-    this.selectedHole = undefined;
+    // let selection: Coordinate = { x: row, y: col };
+
+    // // If no hole is selected, select the current one
+    // // don't select the same hole twice
+    // if (!this.selectedHole || this.selectedHole == selection) {
+    //   this.selectedHole = selection;
+    //   return;
+    // }
+
+    // // If the selected hole is in the same row change selection to new hole
+    // if (this.selectedHole.x == selection.x) {
+    //   this.selectedHole = selection;
+    //   return;
+    // }
+
+    // // create the wire
+    // let wire = {
+    //   start: this.selectedHole,
+    //   end: selection,
+    //   color: this.selectedColor(),
+    // };
+
+    // // this.wires.push(wire);
+    // // this.renderWire(wire);
+    // // this.saveWiresToStorage(this.'wires);
+    // this.selectedHole = undefined;
   }
 
   calcHoleIdString(row: number, col: number) {

@@ -36,15 +36,15 @@ export abstract class BoardElement {
     let endCoordinate = end;
 
     // if end row is greater than start row, swap them
-    if (start.row < end.row) {
-      startCoordinate.row = end.row;
-      endCoordinate.row = start.row;
+    if (start.x < end.x) {
+      startCoordinate.x = end.x;
+      endCoordinate.x = start.x;
     }
 
     // if end col is greater than start col, swap them
-    if (start.col < end.col) {
-      startCoordinate.col = end.col;
-      endCoordinate.col = start.col;
+    if (start.y < end.y) {
+      startCoordinate.y = end.y;
+      endCoordinate.y = start.y;
     }
 
     this.start = startCoordinate;

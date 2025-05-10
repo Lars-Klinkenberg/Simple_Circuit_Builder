@@ -1,14 +1,38 @@
-<div id="board" #board>
+<!-- <div id="board" #board>
   <tr class="row" *ngFor="let i of [].constructor(rowCount()); let row = index">
     <td class="col" *ngFor="let y of [].constructor(colCount()); let col = index">
       <button class="hole" [id]="calcHoleIdString(row, col)" (click)="holeSelected(row, col)"></button>
     </td>
   </tr>
-</div>
+</div> -->
 
-@for(element of allComponents;track element){
- @if(element.getType() === availableComponentTypes.WIRE){
+<div class="board-container">
+  <svg class="board-svg" [attr.viewBox]="viewBox">
+    @for(row of [].constructor(rowCount()); track $index){
+    <rect
+      class="stripe"
+      [attr.x]="0"
+      [attr.y]="
+        $index * BOARD_OPTIONS.verticalSpacing -
+        (BOARD_OPTIONS.stripeHeight - BOARD_OPTIONS.holeSize) +
+        4
+      "
+      [attr.width]="'100%'"
+      [attr.height]="BOARD_OPTIONS.stripeHeight"
+    />
+    } @for(hole of allHoles; track hole){
+    <circle
+      [attr.cx]="hole.coordinate.x"
+      [attr.cy]="hole.coordinate.y"
+      [attr.r]="BOARD_OPTIONS.holeSize"
+      [attr.fill]="'black'"
+      stroke="black"
+      stroke-width="0.5"
+      (click)="holeSelected(hole)"
+    />
+    } @for(element of allComponents;track element) { @if(element.getType() ===
+    availableComponentTypes.WIRE){
     <wire [data]="element"></wire>
- }
-}
-
+    } }
+  </svg>
+</div>
