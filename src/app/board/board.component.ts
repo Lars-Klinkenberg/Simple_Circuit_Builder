@@ -10,11 +10,10 @@ import { Wire } from './wire';
 import { Coordinate } from './coordinate';
 
 @Component({
-  selector: 'app-board',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './board.component.html',
-  styleUrl: './board.component.scss',
+    selector: 'app-board',
+    imports: [CommonModule],
+    templateUrl: './board.component.html',
+    styleUrl: './board.component.scss'
 })
 export class BoardComponent implements AfterViewInit {
   LOCAL_STORAGE_WIRE_PATH = 'wires';

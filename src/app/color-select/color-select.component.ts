@@ -11,17 +11,16 @@ export interface Color {
 }
 
 @Component({
-  selector: 'app-color-select',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    CommonModule,
-  ],
-  templateUrl: './color-select.component.html',
-  styleUrl: './color-select.component.scss',
+    selector: 'app-color-select',
+    imports: [
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatButtonModule,
+        CommonModule,
+    ],
+    templateUrl: './color-select.component.html',
+    styleUrl: './color-select.component.scss'
 })
 export class ColorSelectComponent {
   @Input() color: string = '#808080';

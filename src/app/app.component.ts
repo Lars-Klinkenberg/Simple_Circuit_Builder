@@ -11,11 +11,10 @@ export enum EditTypes {
 }
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, BoardComponent, ColorSelectComponent, MatIconModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+    selector: 'app-root',
+    imports: [CommonModule, BoardComponent, ColorSelectComponent, MatIconModule],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
   editTypes = EditTypes;
