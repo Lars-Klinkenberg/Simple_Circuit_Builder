@@ -48,7 +48,7 @@ export class BoardComponent implements AfterViewInit {
     let wire = {
       start: this.selectedHole,
       end: selection,
-      color: this.selectedColor,
+      color: this.selectedColor(),
     };
     this.wires.push(wire);
     this.renderWire(wire);
