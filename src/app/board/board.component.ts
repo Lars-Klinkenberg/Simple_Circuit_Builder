@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Wire } from './wire';
 import { Coordinate } from './coordinate';
+import { input } from '@angular/core';
 
 @Component({
     selector: 'app-board',
@@ -20,9 +21,9 @@ export class BoardComponent implements AfterViewInit {
 
   @ViewChild('board') boardContainer!: ElementRef;
 
-  @Input() rowCount: number = 15;
-  @Input() colCount: number = 40;
-  @Input() selectedColor: string = 'grey';
+  rowCount = input<number>(15);
+  colCount = input<number>(40);
+  selectedColor = input<string>('grey');
 
   selectedHole: Coordinate | undefined = undefined;
 
@@ -39,17 +40,30 @@ export class BoardComponent implements AfterViewInit {
   }
 
   holeSelected(row: number, col: number) {
+    console.log(`holeSelected: ${row}, ${col}`);
+
     let selection: Coordinate = { row, col };
 
+    // If no hole is selected, select the current one
+    // don't select the same hole twice
     if (!this.selectedHole || this.selectedHole == selection) {
       this.selectedHole = selection;
       return;
     }
+
+    // If the selected hole is in the same row change selection to new hole
+    if (this.selectedHole.row == selection.row) {
+      this.selectedHole = selection;
+      return;
+    }
+
+    // create the wire
     let wire = {
       start: this.selectedHole,
       end: selection,
       color: this.selectedColor(),
     };
+
     this.wires.push(wire);
     this.renderWire(wire);
     this.saveWiresToStorage(this.wires);
@@ -61,6 +75,7 @@ export class BoardComponent implements AfterViewInit {
   }
 
   renderWire(wire: Wire) {
+    // Sort the wire coordinates to ensure the start is always less than the end
     if (wire.start.row > wire.end.row) {
       let temp = wire.start;
       wire.start = wire.end;
