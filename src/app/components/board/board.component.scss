@@ -8,9 +8,9 @@
     width: auto;
     height: auto;
     display: block;
-    border: 10px solid white;
-    padding: 2px;
-    background-color: white;
+    border: 5px solid #ac8949;
+    padding: 5px;
+    background-color: black;
 
     .stripe {
       fill: #ac8949;
@@ -18,7 +18,11 @@
 
     .hole {
       fill: black;
-      stroke: #a18666;
+
+      &.selected {
+        fill: #777575;
+        stroke: white;
+      }
     }
   }
 }

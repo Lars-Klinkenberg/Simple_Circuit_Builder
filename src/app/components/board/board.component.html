@@ -24,10 +24,11 @@
     <circle
       class="hole"
       [ngClass]="currentEditMode() === allEditModes.ADD ? 'clickable' : ''"
+      [ngClass]="selectedHole === hole ? 'selected' : ''"
       [attr.cx]="hole.getCoordinate().x"
       [attr.cy]="hole.getCoordinate().y"
       [attr.r]="BOARD_OPTIONS.holeSize"
-      stroke-width="0.5"
+      stroke-width="2"
       (click)="holeSelected(hole)"
     />
     } @for(element of allComponents;track element) { @if(element.getType() ===
