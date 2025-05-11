@@ -1,7 +1,13 @@
 import { ComponentTypes } from './component-types';
 import { Hole } from './hole';
+import { Wire } from './wire';
 
-export abstract class BoardElement {
+export interface StorageBoardElement{
+  type: ComponentTypes,
+  element: any
+}
+
+export abstract class BoardElement<T> {
   private id: string;
   private start!: Hole;
   private end!: Hole;
@@ -57,4 +63,8 @@ export abstract class BoardElement {
   }
 
   abstract getType(): ComponentTypes;
+
+  abstract toStorageItem():StorageBoardElement;
+
+  abstract fillFromJson(data: any): T;
 }
