@@ -22,6 +22,8 @@ export class BoardComponent implements AfterViewInit {
     horizontalSpacing: 50,
     holeSize: 20,
     stripeHeight: 50,
+    holeHorizontalOffset: 30,
+    stripeVerticalOffset: 30,
   };
   allEditModes = UserActions;
 
@@ -57,6 +59,12 @@ export class BoardComponent implements AfterViewInit {
           y: row * this.BOARD_OPTIONS.verticalSpacing,
         });
 
+        hole.setX(
+          hole.getCoordinate().x + this.BOARD_OPTIONS.holeHorizontalOffset
+        );
+        hole.setY(
+          hole.getCoordinate().y + this.BOARD_OPTIONS.stripeVerticalOffset
+        );
         holes.push(hole);
       }
     }
@@ -70,14 +78,16 @@ export class BoardComponent implements AfterViewInit {
     const minY =
       Math.min(...this.allHoles.map((h) => h.getCoordinate().y)) - padding;
     const maxX =
-      Math.max(...this.allHoles.map((h) => h.getCoordinate().x)) + padding;
+      Math.max(...this.allHoles.map((h) => h.getCoordinate().x));
     const maxY =
-      Math.max(...this.allHoles.map((h) => h.getCoordinate().y)) + padding;
+      Math.max(...this.allHoles.map((h) => h.getCoordinate().y)) + padding + 10;
 
     const width = maxX - minX;
     const height = maxY - minY;
 
-    this.viewBox = `${minX} ${minY} ${width} ${height}`;
+    this.viewBox = `0 0 ${
+      width + this.BOARD_OPTIONS.holeHorizontalOffset * 2
+    } ${height + this.BOARD_OPTIONS.stripeVerticalOffset}`;
   }
 
   holeSelected(hole: Hole) {
@@ -212,5 +222,13 @@ export class BoardComponent implements AfterViewInit {
 
   absDistance(a: number, b: number): number {
     return Math.abs(a - b);
+  }
+
+  getStripeY(index: number): number {
+    let y =
+      index * this.BOARD_OPTIONS.verticalSpacing -
+      (this.BOARD_OPTIONS.stripeHeight - this.BOARD_OPTIONS.holeSize) +
+      4;
+    return y + this.BOARD_OPTIONS.stripeVerticalOffset;
   }
 }

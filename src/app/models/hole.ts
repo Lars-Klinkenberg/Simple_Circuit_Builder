@@ -16,4 +16,11 @@ export class Hole {
   setCoordinate(coordinate: Coordinate): void {
     this.coordinate = coordinate;
   }
+
+  setX(x: number): void {
+    this.coordinate.x = x;
+  }
+  setY(y: number): void {
+    this.coordinate.y = y;
+  }
 }

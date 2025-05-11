@@ -12,11 +12,7 @@
     <rect
       class="stripe"
       [attr.x]="0"
-      [attr.y]="
-        $index * BOARD_OPTIONS.verticalSpacing -
-        (BOARD_OPTIONS.stripeHeight - BOARD_OPTIONS.holeSize) +
-        4
-      "
+      [attr.y]="getStripeY($index)"
       [attr.width]="'100%'"
       [attr.height]="BOARD_OPTIONS.stripeHeight"
     />
@@ -42,14 +38,25 @@
       [attr.stroke-width]="wire.strokeWidth"
       (click)="handleComponentClick(wire)"
       [ngClass]="currentEditMode() === allEditModes.REMOVE ? 'clickable' : ''"
+      stroke-linecap="round"
     />
     } @if(element.getType() === availableComponentTypes.CHIP){ @let chip =
     asChip(element);
     <rect
       [attr.x]="chip.getStart().getCoordinate().x"
       [attr.y]="chip.getStart().getCoordinate().y"
-      [attr.width]="absDistance(chip.getStart().getCoordinate().x, chip.getEnd().getCoordinate().x)"
-      [attr.height]="absDistance(chip.getStart().getCoordinate().y, chip.getEnd().getCoordinate().y)"
+      [attr.width]="
+        absDistance(
+          chip.getStart().getCoordinate().x,
+          chip.getEnd().getCoordinate().x
+        )
+      "
+      [attr.height]="
+        absDistance(
+          chip.getStart().getCoordinate().y,
+          chip.getEnd().getCoordinate().y
+        )
+      "
       [attr.fill]="chip.color"
       (click)="handleComponentClick(chip)"
       [ngClass]="currentEditMode() === allEditModes.REMOVE ? 'clickable' : ''"
