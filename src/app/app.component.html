@@ -1,41 +1,17 @@
 <div class="home">
   <div class="tool-select">
-    <!-- <button
-      (click)="changeEditType(editTypes.WIRE)"
-      class="tool-btn"
-      [class.active]="currentEditType == editTypes.WIRE"
-    >
-      <mat-icon
-        aria-hidden="false"
-        aria-label="Add Wire"
-        fontIcon="cable"
-        class="tool-icon"
-      ></mat-icon>
-    </button> -->
-    <!-- <button
-      (click)="changeEditType(editTypes.CUSTOM)"
-      class="tool-btn"
-      [class.active]="currentEditType == editTypes.CUSTOM"
-    >
-      <mat-icon
-        aria-hidden="false"
-        aria-label="Add Wire"
-        fontIcon="dashboard_customize"
-        class="tool-icon"
-      ></mat-icon>
-    </button> -->
     <button
-    (click)="changeUserAction(userActions.ADD)"
-    class="tool-btn"
-    [class.active]="currentUserAction == userActions.ADD"
-  >
-    <mat-icon
-      aria-hidden="false"
-      aria-label="Add Wire"
-      fontIcon="add"
-      class="tool-icon"
-    ></mat-icon>
-  </button>
+      (click)="changeUserAction(userActions.ADD)"
+      class="tool-btn"
+      [class.active]="currentUserAction == userActions.ADD"
+    >
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Add Wire"
+        fontIcon="add"
+        class="tool-icon"
+      ></mat-icon>
+    </button>
     <button
       (click)="changeUserAction(userActions.REMOVE)"
       class="tool-btn"
@@ -51,11 +27,39 @@
   </div>
   <div class="main">
     <div class="top-nav">
+      <button
+        (click)="changeEditType(editTypes.WIRE)"
+        class="tool-btn"
+        [class.active]="currentEditType == editTypes.WIRE"
+      >
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Add Wire"
+          fontIcon="cable"
+          class="tool-icon"
+        ></mat-icon>
+      </button>
+      <button
+        (click)="changeEditType(editTypes.CHIP)"
+        class="tool-btn"
+        [class.active]="currentEditType == editTypes.CHIP"
+      >
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Add Wire"
+          fontIcon="dashboard_customize"
+          class="tool-icon"
+        ></mat-icon>
+      </button>
       <app-color-select
         [(color)]="selectedColor"
-        *ngIf="currentEditType == editTypes.WIRE"
       ></app-color-select>
     </div>
-    <app-board [selectedColor]="selectedColor" class="board" [currentEditMode]="currentUserAction"></app-board>
+    <app-board
+      [selectedColor]="selectedColor"
+      class="board"
+      [currentEditMode]="currentUserAction"
+      [selectedComponentType]="currentEditType"
+    ></app-board>
   </div>
 </div>

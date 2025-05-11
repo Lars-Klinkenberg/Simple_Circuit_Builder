@@ -7,6 +7,7 @@ import { BoardElement, StorageBoardElement } from '../../models/board-element';
 import { ComponentTypes } from '../../models/component-types';
 import { Hole } from '../../models/hole';
 import { UserActions } from '../../models/user-actions';
+import { Chip } from '../../models/chip';
 
 @Component({
   selector: 'app-board',
@@ -106,6 +107,12 @@ export class BoardComponent implements AfterViewInit {
         this.createComponent(wire);
         break;
       }
+      case ComponentTypes.CHIP: {
+        let chip = new Chip(this.selectedColor(), this.selectedHole, hole);
+        this.selectedHole = undefined;
+        this.createComponent(chip);
+        break;
+      }
       default: {
         console.error('unknown component type');
         return;
@@ -179,6 +186,15 @@ export class BoardComponent implements AfterViewInit {
           this.createComponent(wire.fillFromJson(component));
           break;
         }
+        case ComponentTypes.CHIP: {
+          let chip = new Chip(
+            this.selectedColor(),
+            new Hole({ x: 0, y: 0 }),
+            new Hole({ x: 0, y: 0 })
+          );
+          this.createComponent(chip.fillFromJson(component));
+          break;
+        }
         default: {
           console.error("couldn't create component: ", component);
         }
@@ -188,5 +204,13 @@ export class BoardComponent implements AfterViewInit {
 
   asWire(element: BoardElement<any>): Wire {
     return element as Wire;
+  }
+
+  asChip(element: BoardElement<any>): Chip {
+    return element as Chip;
+  }
+
+  absDistance(a: number, b: number): number {
+    return Math.abs(a - b);
   }
 }

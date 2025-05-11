@@ -43,6 +43,17 @@
       (click)="handleComponentClick(wire)"
       [ngClass]="currentEditMode() === allEditModes.REMOVE ? 'clickable' : ''"
     />
+    } @if(element.getType() === availableComponentTypes.CHIP){ @let chip =
+    asChip(element);
+    <rect
+      [attr.x]="chip.getStart().getCoordinate().x"
+      [attr.y]="chip.getStart().getCoordinate().y"
+      [attr.width]="absDistance(chip.getStart().getCoordinate().x, chip.getEnd().getCoordinate().x)"
+      [attr.height]="absDistance(chip.getStart().getCoordinate().y, chip.getEnd().getCoordinate().y)"
+      [attr.fill]="chip.color"
+      (click)="handleComponentClick(chip)"
+      [ngClass]="currentEditMode() === allEditModes.REMOVE ? 'clickable' : ''"
+    />
     } }
   </svg>
 </div>
