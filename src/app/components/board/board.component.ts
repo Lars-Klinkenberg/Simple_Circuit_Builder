@@ -17,10 +17,10 @@ import { UserActions } from '../../models/user-actions';
 export class BoardComponent implements AfterViewInit {
   LOCAL_STORAGE_COMPONENT_PATH = 'components';
   BOARD_OPTIONS = {
-    verticalSpacing: 50,
+    verticalSpacing: 70,
     horizontalSpacing: 50,
-    holeSize: 10,
-    stripeHeight: 26,
+    holeSize: 20,
+    stripeHeight: 50,
   };
   allEditModes = UserActions;
 
@@ -44,8 +44,7 @@ export class BoardComponent implements AfterViewInit {
     this.loadComponentsFromStorage();
   }
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
 
   generateBoardHoles(rows: number, cols: number) {
     let holes: Hole[] = [];
@@ -85,12 +84,13 @@ export class BoardComponent implements AfterViewInit {
       return;
     }
 
-    if (!this.selectedHole) {
-      this.selectedHole = hole;
+    if (this.selectedHole === hole) {
+      this.selectedHole = undefined;
       return;
     }
 
-    if (this.selectedHole === hole) {
+    if (!this.selectedHole) {
+      this.selectedHole = hole;
       return;
     }
 

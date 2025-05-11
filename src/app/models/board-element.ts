@@ -2,9 +2,9 @@ import { ComponentTypes } from './component-types';
 import { Hole } from './hole';
 import { Wire } from './wire';
 
-export interface StorageBoardElement{
-  type: ComponentTypes,
-  element: any
+export interface StorageBoardElement {
+  type: ComponentTypes;
+  element: any;
 }
 
 export abstract class BoardElement<T> {
@@ -39,23 +39,8 @@ export abstract class BoardElement<T> {
   // this is to ensure that the start is always less than the end
   setCoordinates(start: Hole, end: Hole): void {
     // create new coordinates to avoid mutating the original ones
-    let startCoordinate = new Hole({... start.getCoordinate()});
-    let endCoordinate = new Hole({... end.getCoordinate()});
-
-    // if end row is greater than start row, swap them
-    if (start.getCoordinate().x < end.getCoordinate().x) {
-      startCoordinate.getCoordinate().x = end.getCoordinate().x;
-      endCoordinate.getCoordinate().x = start.getCoordinate().x;
-    }
-
-    // if end col is greater than start col, swap them
-    if (start.getCoordinate().y < end.getCoordinate().y) {
-      startCoordinate.getCoordinate().y = end.getCoordinate().y;
-      endCoordinate.getCoordinate().y = start.getCoordinate().y;
-    }
-
-    this.start = startCoordinate;
-    this.end = endCoordinate;
+    this.start = new Hole({ ...start.getCoordinate() });
+    this.end = new Hole({ ...end.getCoordinate() });
   }
 
   getId(): string {
@@ -64,7 +49,7 @@ export abstract class BoardElement<T> {
 
   abstract getType(): ComponentTypes;
 
-  abstract toStorageItem():StorageBoardElement;
+  abstract toStorageItem(): StorageBoardElement;
 
   abstract fillFromJson(data: any): T;
 }
