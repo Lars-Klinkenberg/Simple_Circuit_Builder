@@ -43,8 +43,8 @@
     } @if(element.getType() === availableComponentTypes.CHIP){ @let chip =
     asChip(element);
     <rect
-      [attr.x]="chip.getStart().getCoordinate().x"
-      [attr.y]="chip.getStart().getCoordinate().y"
+      [attr.x]="chip.getStart().getCoordinate().x > chip.getEnd().getCoordinate().x ? chip.getEnd().getCoordinate().x : chip.getStart().getCoordinate().x"
+      [attr.y]="chip.getStart().getCoordinate().y > chip.getEnd().getCoordinate().y ? chip.getEnd().getCoordinate().y : chip.getStart().getCoordinate().y"
       [attr.width]="
         absDistance(
           chip.getStart().getCoordinate().x,
