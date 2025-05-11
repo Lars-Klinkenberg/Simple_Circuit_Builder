@@ -23,6 +23,7 @@
     } @for(hole of allHoles; track hole){
     <circle
       class="hole"
+      [ngClass]="currentEditMode() === allEditModes.ADD ? 'clickable' : ''"
       [attr.cx]="hole.getCoordinate().x"
       [attr.cy]="hole.getCoordinate().y"
       [attr.r]="BOARD_OPTIONS.holeSize"
@@ -31,7 +32,6 @@
     />
     } @for(element of allComponents;track element) { @if(element.getType() ===
     availableComponentTypes.WIRE){ @let wire = asWire(element);
-    <!-- <wire [data]="element"></wire> -->
     <line
       [attr.x1]="wire.getEnd().getCoordinate().x"
       [attr.y1]="wire.getEnd().getCoordinate().y"
@@ -39,6 +39,8 @@
       [attr.y2]="wire.getStart().getCoordinate().y"
       [attr.stroke]="wire.color"
       [attr.stroke-width]="wire.strokeWidth"
+      (click)="handleComponentClick(wire)"
+      [ngClass]="currentEditMode() === allEditModes.REMOVE ? 'clickable' : ''"
     />
     } }
   </svg>

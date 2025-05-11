@@ -1,9 +1,9 @@
 <div class="home">
   <div class="tool-select">
-    <button
-      (click)="changeEditType(editTypes.Wire)"
+    <!-- <button
+      (click)="changeEditType(editTypes.WIRE)"
       class="tool-btn"
-      [class.active]="currentEditType == editTypes.Wire"
+      [class.active]="currentEditType == editTypes.WIRE"
     >
       <mat-icon
         aria-hidden="false"
@@ -11,11 +11,11 @@
         fontIcon="cable"
         class="tool-icon"
       ></mat-icon>
-    </button>
-    <button
-      (click)="changeEditType(editTypes.Component)"
+    </button> -->
+    <!-- <button
+      (click)="changeEditType(editTypes.CUSTOM)"
       class="tool-btn"
-      [class.active]="currentEditType == editTypes.Component"
+      [class.active]="currentEditType == editTypes.CUSTOM"
     >
       <mat-icon
         aria-hidden="false"
@@ -23,11 +23,23 @@
         fontIcon="dashboard_customize"
         class="tool-icon"
       ></mat-icon>
-    </button>
+    </button> -->
     <button
-      (click)="changeEditType(editTypes.Delete)"
+    (click)="changeUserAction(userActions.ADD)"
+    class="tool-btn"
+    [class.active]="currentUserAction == userActions.ADD"
+  >
+    <mat-icon
+      aria-hidden="false"
+      aria-label="Add Wire"
+      fontIcon="add"
+      class="tool-icon"
+    ></mat-icon>
+  </button>
+    <button
+      (click)="changeUserAction(userActions.REMOVE)"
       class="tool-btn"
-      [class.active]="currentEditType == editTypes.Delete"
+      [class.active]="currentUserAction == userActions.REMOVE"
     >
       <mat-icon
         aria-hidden="false"
@@ -41,9 +53,9 @@
     <div class="top-nav">
       <app-color-select
         [(color)]="selectedColor"
-        *ngIf="currentEditType == editTypes.Wire"
+        *ngIf="currentEditType == editTypes.WIRE"
       ></app-color-select>
     </div>
-    <app-board [selectedColor]="selectedColor" class="board"></app-board>
+    <app-board [selectedColor]="selectedColor" class="board" [currentEditMode]="currentUserAction"></app-board>
   </div>
 </div>

@@ -1,17 +1,12 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { Wire } from '../../models/wire';
 import { Coordinate } from '../../models/coordinate';
 import { input } from '@angular/core';
 import { BoardElement, StorageBoardElement } from '../../models/board-element';
 import { ComponentTypes } from '../../models/component-types';
 import { Hole } from '../../models/hole';
+import { UserActions } from '../../models/user-actions';
 
 @Component({
   selector: 'app-board',
@@ -27,12 +22,13 @@ export class BoardComponent implements AfterViewInit {
     holeSize: 10,
     stripeHeight: 26,
   };
-
-  // @ViewChild('board') boardContainer!: ElementRef;
+  allEditModes = UserActions;
 
   rowCount = input<number>(15);
   colCount = input<number>(40);
   selectedColor = input<string>('grey');
+  currentEditMode = input<UserActions>(UserActions.ADD); // decides how the user interacts with the board
+  selectedComponentType = input<ComponentTypes>(ComponentTypes.WIRE); // if user is adding a component, this is the type of component to add
 
   allHoles: Hole[] = [];
   selectedHole: Hole | undefined = undefined;
@@ -45,10 +41,10 @@ export class BoardComponent implements AfterViewInit {
   constructor() {
     this.allHoles = this.generateBoardHoles(this.rowCount(), this.colCount());
     this.setViewBox();
+    this.loadComponentsFromStorage();
   }
 
   ngAfterViewInit(): void {
-    this.loadComponentsFromStorage();
   }
 
   generateBoardHoles(rows: number, cols: number) {
@@ -85,6 +81,10 @@ export class BoardComponent implements AfterViewInit {
   }
 
   holeSelected(hole: Hole) {
+    if (this.currentEditMode() !== UserActions.ADD) {
+      return;
+    }
+
     if (!this.selectedHole) {
       this.selectedHole = hole;
       return;
@@ -94,19 +94,49 @@ export class BoardComponent implements AfterViewInit {
       return;
     }
 
-    let wire = new Wire(
-      this.selectedColor(),
-      this.selectedHole,
-      hole,
-      this.BOARD_OPTIONS.holeSize
-    );
-    this.selectedHole = undefined;
-    this.createComponent(wire);
+    switch (this.selectedComponentType()) {
+      case ComponentTypes.WIRE: {
+        let wire = new Wire(
+          this.selectedColor(),
+          this.selectedHole,
+          hole,
+          this.BOARD_OPTIONS.holeSize
+        );
+        this.selectedHole = undefined;
+        this.createComponent(wire);
+        break;
+      }
+      default: {
+        console.error('unknown component type');
+        return;
+      }
+    }
   }
 
   createComponent(component: BoardElement<any>, updateStorage: boolean = true) {
     this.allComponents.push(component);
     this.saveComponentsToStorage(this.allComponents);
+  }
+
+  deleteComponent(component: BoardElement<any>) {
+    if (this.currentEditMode() !== UserActions.REMOVE) {
+      return;
+    }
+
+    this.allComponents = this.allComponents.filter(
+      (c) => c.getId() !== component.getId()
+    );
+    this.saveComponentsToStorage(this.allComponents);
+  }
+
+  handleComponentClick(component: BoardElement<any>) {
+    if (this.currentEditMode() === UserActions.REMOVE) {
+      this.deleteComponent(component);
+      return;
+    }
+    if (this.currentEditMode() === UserActions.ADD) {
+      return;
+    }
   }
 
   saveComponentsToStorage(components: BoardElement<any>[]) {
