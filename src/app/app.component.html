@@ -30,7 +30,7 @@
       <button
         (click)="changeEditType(editTypes.WIRE)"
         class="tool-btn"
-        [class.active]="currentEditType == editTypes.WIRE"
+        [class.active]="currentEditType == editTypes.WIRE && currentUserAction == userActions.ADD"
       >
         <mat-icon
           aria-hidden="false"
@@ -42,11 +42,11 @@
       <button
         (click)="changeEditType(editTypes.CHIP)"
         class="tool-btn"
-        [class.active]="currentEditType == editTypes.CHIP"
+        [class.active]="currentEditType == editTypes.CHIP && currentUserAction == userActions.ADD"
       >
         <mat-icon
           aria-hidden="false"
-          aria-label="Add Wire"
+          aria-label="Add Chip"
           fontIcon="dashboard_customize"
           class="tool-icon"
         ></mat-icon>

@@ -23,6 +23,7 @@ export class AppComponent {
 
   changeEditType(tool: ComponentTypes) {
     this.currentEditType = tool;
+    this.currentUserAction = this.userActions.ADD;
   }
 
   changeUserAction(action: UserActions) {
