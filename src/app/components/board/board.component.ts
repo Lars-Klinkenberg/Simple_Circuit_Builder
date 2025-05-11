@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component } from '@angular/core';
 import { Wire } from '../../models/wire';
-import { Coordinate } from '../../models/coordinate';
-import { input } from '@angular/core';
+import { input, Component } from '@angular/core';
 import { BoardElement, StorageBoardElement } from '../../models/board-element';
 import { ComponentTypes } from '../../models/component-types';
 import { Hole } from '../../models/hole';
 import { UserActions } from '../../models/user-actions';
-import { Chip } from '../../models/chip';
+import { Custom } from '../../models/custom';
 
 @Component({
   selector: 'app-board',
@@ -15,7 +13,7 @@ import { Chip } from '../../models/chip';
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
 })
-export class BoardComponent implements AfterViewInit {
+export class BoardComponent {
   LOCAL_STORAGE_COMPONENT_PATH = 'components';
   BOARD_OPTIONS = {
     verticalSpacing: 70,
@@ -46,8 +44,6 @@ export class BoardComponent implements AfterViewInit {
     this.setViewBox();
     this.loadComponentsFromStorage();
   }
-
-  ngAfterViewInit(): void {}
 
   generateBoardHoles(rows: number, cols: number) {
     let holes: Hole[] = [];
@@ -117,10 +113,10 @@ export class BoardComponent implements AfterViewInit {
         this.createComponent(wire);
         break;
       }
-      case ComponentTypes.CHIP: {
-        let chip = new Chip(this.selectedColor(), this.selectedHole, hole);
+      case ComponentTypes.CUSTOM: {
+        let custom = new Custom(this.selectedColor(), this.selectedHole, hole);
         this.selectedHole = undefined;
-        this.createComponent(chip);
+        this.createComponent(custom);
         break;
       }
       default: {
@@ -196,13 +192,13 @@ export class BoardComponent implements AfterViewInit {
           this.createComponent(wire.fillFromJson(component));
           break;
         }
-        case ComponentTypes.CHIP: {
-          let chip = new Chip(
+        case ComponentTypes.CUSTOM: {
+          let custom = new Custom(
             this.selectedColor(),
             new Hole({ x: 0, y: 0 }),
             new Hole({ x: 0, y: 0 })
           );
-          this.createComponent(chip.fillFromJson(component));
+          this.createComponent(custom.fillFromJson(component));
           break;
         }
         default: {
@@ -216,8 +212,8 @@ export class BoardComponent implements AfterViewInit {
     return element as Wire;
   }
 
-  asChip(element: BoardElement<any>): Chip {
-    return element as Chip;
+  asCustom(element: BoardElement<any>): Custom {
+    return element as Custom;
   }
 
   absDistance(a: number, b: number): number {

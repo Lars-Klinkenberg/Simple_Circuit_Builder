@@ -1,6 +1,5 @@
 import { ComponentTypes } from './component-types';
 import { Hole } from './hole';
-import { Wire } from './wire';
 
 export interface StorageBoardElement {
   type: ComponentTypes;
@@ -35,8 +34,6 @@ export abstract class BoardElement<T> {
     this.setCoordinates(this.start, end);
   }
 
-  // sets the greater value of row or col as start and the lesser value as end
-  // this is to ensure that the start is always less than the end
   setCoordinates(start: Hole, end: Hole): void {
     // create new coordinates to avoid mutating the original ones
     this.start = new Hole({ ...start.getCoordinate() });
@@ -47,9 +44,24 @@ export abstract class BoardElement<T> {
     return this.id;
   }
 
-  abstract getType(): ComponentTypes;
+  toStorageItem(): StorageBoardElement {
+    return {
+      type: this.getType(),
+      element: {
+        start: {
+          x: this.getStart().getCoordinate().x,
+          y: this.getStart().getCoordinate().y,
+        },
+        end: {
+          x: this.getEnd().getCoordinate().x,
+          y: this.getEnd().getCoordinate().y,
+        },
+        color: this.color,
+      },
+    };
+  }
 
-  abstract toStorageItem(): StorageBoardElement;
+  abstract getType(): ComponentTypes;
 
   abstract fillFromJson(data: any): T;
 }

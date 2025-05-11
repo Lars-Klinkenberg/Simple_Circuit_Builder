@@ -40,34 +40,34 @@
       [ngClass]="currentEditMode() === allEditModes.REMOVE ? 'clickable' : ''"
       stroke-linecap="round"
     />
-    } @if(element.getType() === availableComponentTypes.CHIP){ @let chip =
-    asChip(element);
+    } @if(element.getType() === availableComponentTypes.CUSTOM){ @let custom =
+    asCustom(element);
     <rect
-      class="chip"
+      class="custom"
       [attr.x]="
-        chip.getStart().getCoordinate().x > chip.getEnd().getCoordinate().x
-          ? chip.getEnd().getCoordinate().x
-          : chip.getStart().getCoordinate().x
+        custom.getStart().getCoordinate().x > custom.getEnd().getCoordinate().x
+          ? custom.getEnd().getCoordinate().x
+          : custom.getStart().getCoordinate().x
       "
       [attr.y]="
-        chip.getStart().getCoordinate().y > chip.getEnd().getCoordinate().y
-          ? chip.getEnd().getCoordinate().y
-          : chip.getStart().getCoordinate().y
+        custom.getStart().getCoordinate().y > custom.getEnd().getCoordinate().y
+          ? custom.getEnd().getCoordinate().y
+          : custom.getStart().getCoordinate().y
       "
       [attr.width]="
         absDistance(
-          chip.getStart().getCoordinate().x,
-          chip.getEnd().getCoordinate().x
+          custom.getStart().getCoordinate().x,
+          custom.getEnd().getCoordinate().x
         )
       "
       [attr.height]="
         absDistance(
-          chip.getStart().getCoordinate().y,
-          chip.getEnd().getCoordinate().y
+          custom.getStart().getCoordinate().y,
+          custom.getEnd().getCoordinate().y
         )
       "
-      [attr.fill]="chip.color"
-      (click)="handleComponentClick(chip)"
+      [attr.fill]="custom.color"
+      (click)="handleComponentClick(custom)"
       [ngClass]="currentEditMode() === allEditModes.REMOVE ? 'clickable' : ''"
     />
     } }

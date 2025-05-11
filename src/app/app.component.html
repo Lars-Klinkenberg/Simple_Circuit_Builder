@@ -40,13 +40,13 @@
         ></mat-icon>
       </button>
       <button
-        (click)="changeEditType(editTypes.CHIP)"
+        (click)="changeEditType(editTypes.CUSTOM)"
         class="tool-btn"
-        [class.active]="currentEditType == editTypes.CHIP && currentUserAction == userActions.ADD"
+        [class.active]="currentEditType == editTypes.CUSTOM && currentUserAction == userActions.ADD"
       >
         <mat-icon
           aria-hidden="false"
-          aria-label="Add Chip"
+          aria-label="Add Custom"
           fontIcon="dashboard_customize"
           class="tool-icon"
         ></mat-icon>
