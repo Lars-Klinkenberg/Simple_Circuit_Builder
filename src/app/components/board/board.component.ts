@@ -45,7 +45,7 @@ export class BoardComponent implements AfterViewInit {
 
   constructor() {
     this.allHoles = this.generateBoardHoles(this.rowCount(), this.colCount());
-    this.allComponents.push(new Wire('red', { x: 10, y: 10 }, { x: 1, y: 1 }));
+    this.allComponents.push(new Wire('red',this.allHoles[2], this.allHoles[82]));
     this.setViewBox();
   }
 
@@ -70,13 +70,13 @@ export class BoardComponent implements AfterViewInit {
 
   setViewBox(padding: number = 10) {
     const minX =
-      Math.min(...this.allHoles.map((h) => h.coordinate.x)) - padding;
+      Math.min(...this.allHoles.map((h) => h.getCoordinate().x)) - padding;
     const minY =
-      Math.min(...this.allHoles.map((h) => h.coordinate.y)) - padding;
+      Math.min(...this.allHoles.map((h) => h.getCoordinate().y)) - padding;
     const maxX =
-      Math.max(...this.allHoles.map((h) => h.coordinate.x)) + padding;
+      Math.max(...this.allHoles.map((h) => h.getCoordinate().x)) + padding;
     const maxY =
-      Math.max(...this.allHoles.map((h) => h.coordinate.y)) + padding;
+      Math.max(...this.allHoles.map((h) => h.getCoordinate().y)) + padding;
 
     const width = maxX - minX;
     const height = maxY - minY;
@@ -162,5 +162,9 @@ export class BoardComponent implements AfterViewInit {
     if (!wires) return [];
 
     return wires;
+  }
+
+  asWire(element: BoardElement): Wire {
+    return element as Wire;
   }
 }

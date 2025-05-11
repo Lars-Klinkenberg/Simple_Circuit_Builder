@@ -1,10 +1,12 @@
 import { BoardElement } from './board-element';
 import { ComponentTypes } from './component-types';
-import { Coordinate } from './coordinate';
+import { Hole } from './hole';
 
 export class Wire extends BoardElement {
-  constructor(color: string, start: Coordinate, end: Coordinate) {
+  strokeWidth: number;
+  constructor(color: string, start: Hole, end: Hole, strokeWidth: number = 10) {
     super(color, start, end);
+    this.strokeWidth = strokeWidth;
   }
 
   override getType(): ComponentTypes {

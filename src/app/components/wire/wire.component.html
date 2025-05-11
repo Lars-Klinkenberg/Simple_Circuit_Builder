@@ -5,12 +5,22 @@
 {{ data()?.getStart()?.col}},
 {{ data()?.getStart()?.row}}
 <svg>
-  <line
-  [attr.x1]="data()?.getEnd()?.col"
-  [attr.y1]="data()?.getEnd()?.row"
-  [attr.x2]="data()?.getStart()?.col"
-  [attr.y2]="data()?.getStart()?.row"
+</svg> -->
+
+<!-- <line
+  [attr.x1]="data()?.getEnd()?.coordinate?.x"
+  [attr.y1]="data()?.getEnd()?.coordinate?.y"
+  [attr.x2]="data()?.getStart()?.coordinate?.x"
+  [attr.y2]="data()?.getStart()?.coordinate?.y"
   stroke="red"
   stroke-width="2"
-  />
-</svg> -->
+/> -->
+
+<svg:line
+  [attr.x1]="100"
+  [attr.y1]="0"
+  [attr.x2]="100"
+  [attr.y2]="150"
+  stroke="red"
+  stroke-width="2"
+/>

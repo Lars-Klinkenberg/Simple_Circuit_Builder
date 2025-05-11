@@ -22,8 +22,8 @@
     />
     } @for(hole of allHoles; track hole){
     <circle
-      [attr.cx]="hole.coordinate.x"
-      [attr.cy]="hole.coordinate.y"
+      [attr.cx]="hole.getCoordinate().x"
+      [attr.cy]="hole.getCoordinate().y"
       [attr.r]="BOARD_OPTIONS.holeSize"
       [attr.fill]="'black'"
       stroke="black"
@@ -32,7 +32,16 @@
     />
     } @for(element of allComponents;track element) { @if(element.getType() ===
     availableComponentTypes.WIRE){
-    <wire [data]="element"></wire>
+      @let wire = asWire(element);
+    <!-- <wire [data]="element"></wire> -->
+    <line
+    [attr.x1]="wire.getEnd().getCoordinate().x"
+    [attr.y1]="wire.getEnd().getCoordinate().y"
+    [attr.x2]="wire.getStart().getCoordinate().x"
+    [attr.y2]="wire.getStart().getCoordinate().y"
+    [attr.stroke]="wire.color"
+    [attr.stroke-width]="wire.strokeWidth"
+  />
     } }
   </svg>
 </div>
